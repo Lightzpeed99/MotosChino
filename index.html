@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Taller de Motos Chino — Servicio y reparación profesional para todas las marcas en Orizaba, Veracruz. Cursos de mecánica y facturación disponible.">
-  <title>Taller de Motos Chino · Orizaba, Ver.</title>
+  <meta name="description" content="Taller de Motos Chino — Servicio y reparación profesional para todas las marcas en Ixhuatlancillo, Veracruz. Cursos de mecánica y facturación disponible.">
+  <title>Taller de Motos Chino · Ixhuatlancillo, Ver.</title>
   <!-- Primary: bunny.net (GDPR-friendly Google Fonts mirror) -->
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=barlow:400,500,600|barlow-condensed:500,700&display=swap" rel="stylesheet">
@@ -36,6 +36,9 @@
       --radius-md: 10px;
       --radius-lg: 16px;
       --radius-xl: 22px;
+
+      /* Unified horizontal padding — 15% margins on each side, all breakpoints */
+      --pad-x: 15%;
     }
 
     html { scroll-behavior: smooth; }
@@ -61,18 +64,18 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 2.5rem;
-      height: 60px;
+      padding: 0.6rem var(--pad-x);
+      min-height: 70px;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
     .nav-logo {
       display: flex;
       flex-direction: column;
-      line-height: 1;
+      line-height: 1.1;
       gap: 1px;
     }
-    .nav-logo-sup {
+    .nav-logo-sub-line {
       font-family: var(--font-body);
       font-size: 9px;
       font-weight: 500;
@@ -82,16 +85,81 @@
     }
     .nav-logo-main {
       font-family: var(--font-display);
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
       color: #fff;
       letter-spacing: 0.04em;
+      line-height: 1;
+      margin-top: 2px;
     }
     .nav-logo-main span { color: var(--gold); }
 
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    /* Location pill — same visual weight as WhatsApp button, gold style (Punto B) */
+    .nav-location {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold);
+      color: var(--navy-dk);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 8px 16px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-location:hover { background: var(--gold-lt); transform: translateY(-1px); }
+    .nav-location-icon {
+      width: 14px;
+      height: 14px;
+      stroke: var(--navy-dk);
+      stroke-width: 2;
+      fill: none;
+      flex-shrink: 0;
+    }
+
+    /* WhatsApp button in nav — outline white, same height as location pill */
+    .nav-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: var(--radius-md);
+      padding: 8px 16px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .nav-wa:hover {
+      border-color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.06);
+      transform: translateY(-1px);
+    }
+    .nav-wa-icon {
+      width: 14px;
+      height: 14px;
+      fill: #fff;
+      flex-shrink: 0;
+    }
+
     .nav-links {
       display: flex;
-      gap: 2rem;
+      gap: 3.5rem;
       list-style: none;
     }
     .nav-links a {
@@ -101,26 +169,97 @@
     }
     .nav-links a:hover { color: #fff; }
 
-    .nav-cta {
-      background: var(--gold);
-      color: #fff;
+    /* ─── Map modal (Punto B) ──────────────────────── */
+    .map-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(8,15,24,0.78);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 1.5rem;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .map-modal.is-open { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .map-modal-card {
+      background: var(--navy-dk);
+      border-radius: var(--radius-xl);
+      width: 100%;
+      max-width: 720px;
+      overflow: hidden;
+      border: 1px solid rgba(212,160,23,0.25);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+      animation: slideUp 0.25s ease-out;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .map-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .map-modal-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .map-modal-label {
       font-family: var(--font-body);
-      font-size: 13px;
+      font-size: 10px;
       font-weight: 600;
-      padding: 8px 18px;
-      border-radius: var(--radius-md);
+      color: var(--gold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .map-modal-place {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.02em;
+    }
+    .map-modal-close {
+      background: rgba(255,255,255,0.08);
       border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
       cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: background 0.2s;
     }
-    .nav-cta:hover { background: var(--gold-lt); }
+    .map-modal-close:hover { background: rgba(255,255,255,0.16); }
+
+    .map-modal-iframe-wrap {
+      position: relative;
+      width: 100%;
+      height: 420px;
+      background: #0a1422;
+    }
+    .map-modal-iframe-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
 
     /* ─── Hero ─────────────────────────────────────── */
     .hero {
       background: var(--navy);
       position: relative;
       overflow: hidden;
-      padding: 5rem 2.5rem 4rem;
+      padding: 5rem var(--pad-x) 4rem;
     }
 
     /* Decorative circles */
@@ -146,12 +285,11 @@
     .hero-inner {
       position: relative;
       z-index: 1;
-      max-width: 960px;
-      margin: 0 auto;
+      width: 100%;
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 2rem;
-      align-items: center;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 3rem;
+      align-items: start;
     }
 
     .hero-tag {
@@ -167,25 +305,29 @@
     .hero-tag-dot { width: 5px; height: 5px; background: var(--gold); border-radius: 50%; }
     .hero-tag-text { font-size: 11px; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; }
 
-    .hero-wordmark { margin-bottom: 1rem; }
-    .hero-wordmark-top {
-      display: block;
+    .hero-wordmark {
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hero-wordmark-sup {
       font-family: var(--font-body);
       font-size: 14px;
       font-weight: 500;
       color: #85B7EB;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      margin-bottom: 4px;
+      line-height: 1.2;
     }
     .hero-wordmark-main {
-      display: block;
       font-family: var(--font-display);
       font-size: 80px;
       font-weight: 700;
       color: #fff;
       letter-spacing: 0.02em;
-      line-height: 1;
+      line-height: 0.95;
+      margin-top: 6px;
     }
     .hero-wordmark-main span { color: var(--gold); }
 
@@ -201,7 +343,7 @@
 
     .btn-gold {
       background: var(--gold);
-      color: #fff;
+      color: var(--navy-dk);
       font-family: var(--font-body);
       font-size: 14px;
       font-weight: 600;
@@ -229,38 +371,59 @@
 
     /* Moto SVG illustration */
     .hero-moto {
-      width: 280px;
-      opacity: 0.22;
-      flex-shrink: 0;
+      width: 100%;
+      max-width: 560px;
+      height: auto;
+      opacity: 0.55;
+      justify-self: end;
+      /* Outline-only rendering: paths are filled silhouettes,
+         we override to draw only the stroke. */
+      color: #fff;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 9;
+      stroke-linejoin: round;
+      stroke-linecap: round;
     }
+    .hero-moto path { fill: none; stroke: inherit; }
 
     /* ─── Brands strip ─────────────────────────────── */
     .brands-strip {
       background: var(--navy-dk);
-      padding: 0.9rem 2.5rem;
+      padding: 1rem var(--pad-x);
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 1.25rem;
       flex-wrap: wrap;
       border-top: 1px solid rgba(255,255,255,0.05);
     }
     .brands-label {
-      font-size: 10px;
-      color: #4A6A8A;
-      letter-spacing: 0.12em;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold-dk);
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       white-space: nowrap;
-      margin-right: 4px;
     }
-    .brands-list { display: flex; gap: 8px; flex-wrap: wrap; }
+    .brands-list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      flex: 1;
+      row-gap: 8px;
+      justify-content: flex-start;
+    }
     .brand-chip {
-      padding: 4px 13px;
-      border-radius: 99px;
-      font-size: 11px;
+      flex: 1 1 auto;          /* grow proportionally from content size to fill available space */
+      padding: 6px 18px;
+      border-radius: var(--radius-md);
+      font-size: 12px;
       font-weight: 600;
       border: 0.5px solid;
       font-family: var(--font-body);
       letter-spacing: 0.04em;
+      text-align: center;
+      white-space: nowrap;
     }
     .chip-honda    { background:#1a0808; color:#f5a0a0; border-color:#8B2020; }
     .chip-yamaha   { background:#08080f; color:#a0a8f5; border-color:#20208B; }
@@ -274,16 +437,13 @@
 
     /* ─── Section commons ──────────────────────────── */
     .section {
-      padding: 4rem 2.5rem;
-      max-width: 960px;
-      margin: 0 auto;
+      padding: 4rem var(--pad-x);
     }
     .section-full {
-      padding: 4rem 2.5rem;
+      padding: 4rem var(--pad-x);
     }
     .section-full-inner {
-      max-width: 960px;
-      margin: 0 auto;
+      width: 100%;
     }
     .section-bg-white { background: #fff; }
 
@@ -383,7 +543,7 @@
     .course-cta {
       display: inline-block;
       background: var(--gold);
-      color: #fff;
+      color: var(--navy-dk);
       font-family: var(--font-body);
       font-size: 14px;
       font-weight: 600;
@@ -447,7 +607,7 @@
     .billing-text strong { color: #fff; font-weight: 600; display: block; font-size: 15px; margin-bottom: 2px; }
     .billing-btn {
       background: var(--gold);
-      color: #fff;
+      color: var(--navy-dk);
       font-family: var(--font-body);
       font-size: 13px;
       font-weight: 600;
@@ -463,7 +623,7 @@
     /* ─── Closing ──────────────────────────────────── */
     .closing {
       background: var(--navy-dk);
-      padding: 3.5rem 2.5rem;
+      padding: 3.5rem var(--pad-x);
       text-align: center;
     }
     .closing-quote {
@@ -479,7 +639,7 @@
     /* ─── Footer ───────────────────────────────────── */
     footer {
       background: #080F18;
-      padding: 1.5rem 2.5rem;
+      padding: 1.5rem var(--pad-x);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -487,13 +647,29 @@
       gap: 1rem;
     }
     .footer-brand {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+      gap: 1px;
+    }
+    .footer-brand-sup {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 500;
+      color: #85B7EB;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .footer-brand-main {
       font-family: var(--font-display);
-      font-size: 16px;
+      font-size: 24px;
       font-weight: 700;
       color: #fff;
       letter-spacing: 0.04em;
+      line-height: 1;
+      margin-top: 2px;
     }
-    .footer-brand span { color: var(--gold); }
+    .footer-brand-main span { color: var(--gold); }
     .footer-info {
       font-size: 12px;
       color: #4A6A8A;
@@ -501,55 +677,56 @@
       line-height: 1.8;
     }
 
-    /* ─── WhatsApp floating btn ────────────────────── */
-    .wa-float {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      z-index: 200;
-      background: #25D366;
-      color: #fff;
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 12px 20px;
-      border-radius: 99px;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.35);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .wa-float:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(37,211,102,0.45); }
-    .wa-icon {
-      width: 20px; height: 20px;
-      fill: #fff;
-    }
-
     /* ─── Responsive ───────────────────────────────── */
+    @media (max-width: 900px) {
+      :root {
+        /* En tablet/mobile bajamos a 8% para que el contenido respire.
+           Si prefieres el 15% estricto en todos los breakpoints, cambia a 15%. */
+        --pad-x: 8%;
+      }
+    }
     @media (max-width: 700px) {
-      nav { padding: 0 1.25rem; }
-      .nav-links { display: none; }
+      :root { --pad-x: 6%; }
 
-      .hero { padding: 3rem 1.25rem 2.5rem; }
-      .hero-inner { grid-template-columns: 1fr; }
+      nav { min-height: 64px; }
+      .nav-links { display: none; }
+      .nav-location {
+        padding: 6px 12px;
+        font-size: 11px;
+      }
+      .nav-location-text-full { display: none; }
+      .nav-wa {
+        padding: 6px 12px;
+        font-size: 11px;
+      }
+      .nav-wa-text { display: none; }
+      .nav-logo-main { font-size: 20px; }
+      .nav-logo-sub-line { font-size: 8px; letter-spacing: 0.14em; }
+
+      .hero { padding: 3rem var(--pad-x) 2.5rem; }
+      .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
       .hero-moto { display: none; }
       .hero-wordmark-main { font-size: 56px; }
+      .hero-wordmark-sup { font-size: 11px; letter-spacing: 0.15em; }
 
-      .brands-strip { padding: 0.75rem 1.25rem; }
+      .brands-strip { padding: 0.75rem var(--pad-x); }
 
-      .section { padding: 3rem 1.25rem; }
-      .section-full { padding: 3rem 1.25rem; }
+      .section { padding: 3rem var(--pad-x); }
+      .section-full { padding: 3rem var(--pad-x); }
 
-      .course-wrap { grid-template-columns: 1fr; gap: 1.5rem; }
+      .course-wrap { grid-template-columns: 1fr; gap: 1.5rem; padding: 1.75rem; }
 
-      .closing { padding: 2.5rem 1.25rem; }
+      .closing { padding: 2.5rem var(--pad-x); }
       .closing-quote { font-size: 24px; }
 
-      footer { padding: 1.25rem; flex-direction: column; align-items: flex-start; }
+      footer {
+        padding: 1.25rem var(--pad-x);
+        flex-direction: column;
+        align-items: flex-start;
+      }
       .footer-info { text-align: left; }
+
+      .map-modal-iframe-wrap { height: 320px; }
     }
   </style>
 </head>
@@ -558,7 +735,8 @@
   <!-- ── Nav ───────────────────────────────────────── -->
   <nav>
     <div class="nav-logo">
-      <span class="nav-logo-sup">Taller de Motos</span>
+      <span class="nav-logo-sub-line">Taller de Motos</span>
+      <span class="nav-logo-sub-line">Academia de Motos</span>
       <span class="nav-logo-main">CHIN<span>O</span></span>
     </div>
     <ul class="nav-links">
@@ -567,19 +745,30 @@
       <li><a href="#facturacion">Facturación</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
-    <button class="nav-cta" onclick="window.open('https://wa.me/526611356283','_blank')">WhatsApp</button>
+    <div class="nav-right">
+      <button class="nav-location" onclick="openMapModal()" aria-label="Ver ubicación en mapa">
+        <svg class="nav-location-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <span class="nav-location-text-full">Ixhuatlancillo, Ver.</span>
+      </button>
+      <button class="nav-wa" onclick="window.open('https://wa.me/526611356283','_blank')" aria-label="Contactar por WhatsApp">
+        <svg class="nav-wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        <span class="nav-wa-text">WhatsApp</span>
+      </button>
+    </div>
   </nav>
 
   <!-- ── Hero ──────────────────────────────────────── -->
   <section class="hero">
     <div class="hero-inner">
       <div class="hero-left">
-        <div class="hero-tag">
-          <div class="hero-tag-dot"></div>
-          <span class="hero-tag-text">Servicio profesional · Orizaba, Ver.</span>
-        </div>
         <div class="hero-wordmark">
-          <span class="hero-wordmark-top">Taller de Motos</span>
+          <span class="hero-wordmark-sup">Taller de Motos</span>
+          <span class="hero-wordmark-sup">Academia de Motos</span>
           <span class="hero-wordmark-main">CHIN<span>O</span></span>
         </div>
         <p class="hero-desc">Todo para tu moto. Reparación y servicio profesional para todas las marcas — chinas, japonesas, americanas, de baja y alta cilindrada.</p>
@@ -589,22 +778,18 @@
         </div>
       </div>
 
-      <!-- Moto SVG illustration -->
-      <svg class="hero-moto" viewBox="0 0 260 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle cx="60" cy="118" r="36" stroke="white" stroke-width="7"/>
-        <circle cx="60" cy="118" r="14" stroke="white" stroke-width="4"/>
-        <circle cx="60" cy="118" r="4" fill="white"/>
-        <circle cx="196" cy="118" r="36" stroke="white" stroke-width="7"/>
-        <circle cx="196" cy="118" r="14" stroke="white" stroke-width="4"/>
-        <circle cx="196" cy="118" r="4" fill="white"/>
-        <path d="M60 82 L100 38 L165 38 L196 82" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M60 82 L196 82" stroke="white" stroke-width="6" stroke-linecap="round"/>
-        <path d="M100 82 L128 48 L168 55 L196 82" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M165 38 L205 58" stroke="white" stroke-width="5" stroke-linecap="round"/>
-        <path d="M98 38 L88 18 L120 18" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-        <ellipse cx="182" cy="36" rx="16" ry="9" stroke="white" stroke-width="4"/>
-        <path d="M60 82 L45 65" stroke="white" stroke-width="3" stroke-linecap="round"/>
-        <path d="M35 58 L55 58" stroke="white" stroke-width="5" stroke-linecap="round"/>
+      <!-- Moto SVG illustration — outline-only (transparent fill, white stroke) -->
+      <svg class="hero-moto" viewBox="0 0 563 343" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <g transform="translate(0,343) scale(0.1,-0.1)">
+          <path d="M3705 2984 c-32 -8 -107 -37 -165 -65 -87 -42 -102 -53 -85 -60 11 -4 56 -22 100 -39 223 -87 534 -287 853 -550 50 -41 90 -75 89 -77 -2 -1 -88 3 -192 9 -105 5 -285 8 -400 4 -562 -15 -929 -125 -1066 -318 l-20 -28 39 -52 c158 -211 146 -396 -37 -579 -152 -151 -355 -260 -696 -375 l-160 -53 896 -1 896 0 -15 73 c-21 106 -20 348 3 467 23 122 77 279 122 352 126 208 385 356 735 418 l67 12 -23 52 c-70 157 -189 320 -351 481 -127 127 -231 208 -369 288 -96 56 -135 63 -221 41z"/>
+          <path d="M2848 2701 c-110 -36 -189 -95 -398 -296 -194 -186 -271 -227 -389 -205 -207 37 -406 145 -583 316 -113 110 -161 136 -298 160 -117 20 -241 14 -391 -20 -120 -28 -284 -85 -272 -95 4 -4 35 -15 68 -25 214 -65 574 -216 790 -333 458 -248 721 -502 816 -788 19 -57 23 -92 24 -185 0 -63 -3 -130 -7 -148 l-8 -34 68 37 c205 112 398 281 457 400 27 54 30 70 30 150 -1 50 -5 143 -9 207 -11 139 0 187 51 247 87 102 301 151 976 226 l58 7 -54 42 c-166 129 -404 262 -568 317 -122 42 -271 50 -361 20z"/>
+          <path d="M4474 1990 c-81 -11 -166 -36 -241 -72 l-62 -29 43 -92 c203 -434 301 -636 307 -630 4 5 17 46 29 93 24 96 37 284 23 345 l-9 40 204 122 205 121 -51 26 c-121 61 -314 94 -448 76z"/>
+          <path d="M965 1926 c-191 -44 -357 -160 -464 -326 -77 -118 -111 -242 -112 -395 0 -214 64 -369 216 -521 76 -77 105 -98 185 -137 128 -63 200 -81 335 -81 135 0 207 18 335 81 171 84 321 261 374 442 9 30 16 60 16 67 0 7 -31 16 -82 23 -46 7 -97 14 -114 17 -29 5 -31 3 -43 -38 -34 -115 -143 -248 -247 -301 -114 -58 -262 -74 -375 -41 -130 38 -257 141 -314 254 -148 293 11 642 332 725 143 37 313 -1 436 -97 l37 -30 105 51 c58 27 105 54 105 59 0 18 -121 121 -188 161 -114 68 -207 93 -352 97 -82 2 -146 -1 -185 -10z"/>
+          <path d="M4041 1754 c-252 -228 -316 -592 -159 -897 32 -62 64 -104 133 -173 76 -77 105 -98 185 -137 128 -63 200 -81 335 -81 135 0 207 18 335 81 80 39 109 60 185 137 152 152 216 307 216 521 -1 112 -11 172 -51 277 -38 102 -131 227 -222 299 l-37 30 -91 -62 c-49 -35 -90 -65 -90 -69 0 -3 20 -17 44 -33 54 -34 134 -118 168 -177 92 -158 94 -356 5 -524 -99 -187 -335 -302 -545 -266 -259 44 -447 268 -444 530 1 148 49 259 159 372 l55 56 -51 86 c-29 47 -56 86 -60 86 -4 0 -35 -25 -70 -56z"/>
+          <path d="M1848 1620 c-117 -25 -176 -44 -284 -96 -132 -62 -258 -151 -371 -259 l-98 -94 529 -1 c291 0 527 2 525 4 -4 4 -514 146 -524 146 -3 0 -5 4 -5 8 0 28 346 172 413 172 14 0 28 4 31 9 8 12 -93 126 -113 128 -9 1 -55 -6 -103 -17z"/>
+          <path d="M1035 1453 c-133 -46 -206 -199 -159 -335 65 -191 312 -239 448 -88 l39 44 -24 7 c-13 4 -95 15 -182 24 -87 10 -156 21 -155 26 2 5 63 72 137 149 73 78 132 142 130 144 -2 2 -19 11 -38 21 -49 25 -136 28 -196 8z"/>
+          <path d="M4612 1293 c-71 -246 -73 -253 -81 -249 -4 3 -50 77 -102 165 -52 89 -97 161 -101 161 -3 0 -17 -21 -30 -47 -32 -65 -32 -180 -1 -238 89 -167 315 -196 436 -55 94 110 88 260 -14 362 -27 26 -52 48 -56 48 -5 0 -28 -66 -51 -147z"/>
+        </g>
       </svg>
     </div>
   </section>
@@ -671,7 +856,7 @@
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
           </div>
           <p class="srv-name">Tambugazas</p>
-          <p class="srv-note">Tambor trasero</p>
+          <p class="srv-note">Tambor delantero y trasero</p>
         </div>
       </div>
     </div>
@@ -736,25 +921,61 @@
   <!-- ── Closing ────────────────────────────────────── -->
   <div class="closing">
     <p class="closing-quote">Tu moto, en manos de <span>quien sí sabe.</span></p>
-    <p class="closing-sub">Taller de Motos Chino · Orizaba, Veracruz</p>
   </div>
 
   <!-- ── Footer ─────────────────────────────────────── -->
   <footer>
-    <div class="footer-brand">Taller de Motos <span>CHINO</span></div>
+    <div class="footer-brand">
+      <div class="footer-brand-sup">Taller de Motos</div>
+      <div class="footer-brand-sup">Academia de Motos</div>
+      <div class="footer-brand-main">CHIN<span>O</span></div>
+    </div>
     <div class="footer-info">
-      Carr. a Ixhuatlancillo, Col. Las Sirenas · Orizaba, Ver.<br>
-      661 135 6283 · Lun–Sáb 9 AM – 7 PM
+      Carretera a Ixhuatlancillo, Col. Las Sirenas<br>
+      (Pasando el Puente de los Olivos, a 300 m)<br>
+      +52 661 135 6283 · Lun–Sáb 9 AM – 7 PM
     </div>
   </footer>
 
-  <!-- ── WhatsApp floating button ──────────────────── -->
-  <button class="wa-float" onclick="window.open('https://wa.me/526611356283','_blank')" aria-label="Contactar por WhatsApp">
-    <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
-    WhatsApp
-  </button>
+  <!-- ── Map modal (Punto B) ─────────────────────────── -->
+  <div class="map-modal" id="mapModal" role="dialog" aria-modal="true" aria-labelledby="mapModalTitle">
+    <div class="map-modal-card">
+      <div class="map-modal-header">
+        <div class="map-modal-title">
+          <span class="map-modal-label">Cómo llegar</span>
+          <span class="map-modal-place" id="mapModalTitle">Taller de Motos Chino</span>
+        </div>
+        <button class="map-modal-close" onclick="closeMapModal()" aria-label="Cerrar">×</button>
+      </div>
+      <div class="map-modal-iframe-wrap">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3775.1981538784676!2d-97.1297908!3d18.8782885!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c51d8949b014e3%3A0x8811d7a0f25a33be!2sTaller%20de%20motos%20chino!5e0!3m2!1ses!2smx!4v1777440161640!5m2!1ses!2smx"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+          title="Ubicación del Taller de Motos Chino"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openMapModal() {
+      document.getElementById('mapModal').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMapModal() {
+      document.getElementById('mapModal').classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+    // Cerrar al hacer click fuera del card
+    document.getElementById('mapModal').addEventListener('click', function(e) {
+      if (e.target === this) closeMapModal();
+    });
+    // Cerrar con tecla Escape
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMapModal();
+    });
+  </script>
 
 </body>
 </html>
